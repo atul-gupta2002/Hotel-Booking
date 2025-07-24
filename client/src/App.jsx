@@ -5,6 +5,7 @@ import Home from './pages/Home.jsx'
 import Footer from './components/Footer';
 import AllRooms from "./pages/AllRooms.jsx";
 import RoomDetails from "./pages/RoomDetails.jsx";
+import MyBookings from "./pages/MyBookings.jsx";
 
 const App = () => {
 
@@ -18,6 +19,7 @@ const App = () => {
                     <Route path='/' element={<Home/>} />
                     <Route path='/rooms' element={<AllRooms/>} />
                     <Route path='/rooms/:id' element={<RoomDetails/>} />
+                    <Route path='/my-bookings' element={<MyBookings/>} />
                 </Routes>
             </div>
             <Footer />
