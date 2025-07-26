@@ -41,8 +41,8 @@ const ListRoom = () => {
                                     {item.amenities.join(', ')}
                                 </td>
 
-                                <td className='py-3 px-4 text-gray-700 border-t border-gray-300 '>
-                                    {item.pricePerNight}
+                                <td className='py-3 px-12 text-gray-700 border-t border-gray-300 '>
+                                    ${item.pricePerNight}
                                 </td>
 
                                 <td className='py-3 px-4 text-red-500 text-sm  text-center border-t border-gray-300 '>
