@@ -35,6 +35,7 @@ const Dashboard = () => {
 
             {/*---------Recent bookings------- */}
             <h2 className='text-xl text-blue-950/70 font-medium mb-5'>Recent bookings</h2>
+
             <div className='w-full max-w-3xl text-left border
             border-gray-300 rounded-lg max-h-80 overflow-y-scroll'>
 
