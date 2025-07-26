@@ -24,9 +24,18 @@ const AddRoom = () => {
     })
 
     return (
-        <div>
+       <form>
+           <Title align='left' font='outfit' title='Add Room' subTitle='Fill in the details carefully
+           and accurate room details,pricing,and amenities,to enhance the user booking experience.' />'
 
-        </div>
+           {/*Upload area for images */}
+           <p className='text-gray-800 mt-10'>Images</p>
+           <div className='grid grid-cols-2 sm:flex gap-4 my-2 flex-wrap'>
+               {Object.keys(images).map((key)=> (
+                   <label htmlFor=""></label>
+               ))}
+           </div>
+       </form>
     )
 }
 export default AddRoom
