@@ -1,38 +1,24 @@
-# Node modules and binaries
-node_modules/
-.bin/
-
 # Logs
-logs/
+logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
-# Environment variables
-.env
-.env.*
+node_modules
+dist
+dist-ssr
+*.local
 
-# OS-specific files
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
 .DS_Store
-Thumbs.db
-Desktop.ini
-
-# Editor/IDE folders
-.vscode/
-.idea/
-
-# Runtime files
-pids/
-*.pid
-*.pid.lock
-
-# Coverage reports
-coverage/
-
-# Build folders (in case of bundling or compiling)
-build/
-dist/
-
-# MongoDB dumps
-dump/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
