@@ -32,20 +32,25 @@ const clerkWebhooks = async(req, res)=>{
                 await User.create(userData);
                 break;
             }
-
-
+            case "user.updated":{
+                await User.findByIdAndUpdate(data.id,userData);
+                break;
+            }
+            case "user.deleted": {
+                await User.findByIdAndDelete(data.id);
+                break;
+            }
             default:
                 break;
         }
 
-
-
-
-
-
+        res.json({success:true, message: "Webhook recieved"})
 
     }catch(error){
-
+        console.log(error.message);
+        res.json({success: false , message: error.message });
 
     }
 }
+
+export default clerkWebhooks;
