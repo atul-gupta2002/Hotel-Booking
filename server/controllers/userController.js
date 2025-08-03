@@ -1,7 +1,5 @@
 //GET /api/user/
 
-import {User} from "@clerk/express";
-
 export const getUser = async (req, res)=>{
     try{
         const role = req.user.role;
