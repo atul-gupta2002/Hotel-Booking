@@ -1,0 +1,81 @@
+import Room from "../models/Room.js";
+import Booking from "../models/Booking.js";
+
+//Function to check availability of rooms
+
+
+const checkAvailability = async ({ checkIndate , checkOutDate , room }) => {
+    try{
+        const bookings = await Booking.find({
+            room,
+            checkInDate: { $lte: checkOutDate },
+            checkOutDate: { $gte: checkIndate },
+        })
+        const isAvailable = bookings.length === 0;
+        return isAvailable;
+    }catch(error){
+        console.log(error.message);
+    }
+}
+
+//API to check availability of room
+//POST /api/bookings/check-availability
+export const checkRoomAvailability = async (req, res) => {
+    try{
+        const {checkIndate,checkOutDate,room} = req.body;
+        const isAvailable = await
+            checkAvailability({checkIndate,checkOutDate,room});
+        res.json({success:true,isAvailable});
+    }catch(error){
+        res.json({success:false,message:error.message});
+    }
+}
+
+//API to create new booking
+//POST /api/bookings/book
+
+export const createBooking = async (req,res) => {
+    try{
+        const { room, checkInDate, checkOutDate, guests } = req.body;
+        const user = req.user._id;
+
+        //Before booking check availability
+        const isAvailable = await checkAvailability({
+            checkInDate,
+            checkOutDate,
+            room
+        });
+        if(!isAvailable){
+            return res.json({success:false,message:"Room not available"});
+        }
+        //Get totalprice for the room
+        const roomData = await Room.findById(room).populate("hotel");
+        let totalPrice = roomData.pricePerNight;
+
+        //Calculate totalPrice based on nights
+        const checkin = new Date(checkInDate);
+        const  checkout = new Date(checkOutDate);
+        const timeDiff = checkout.getTime() - checkin.getTime();
+        const nights = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+        totalPrice *= nights;
+        const booking = await Booking.create({
+            user,
+            room,
+            hotel:roomData.hotel._id,
+            guests: +guests,
+            checkInDate,
+            checkOutDate,
+            totalPrice,
+        })
+
+        res.json({success:true,message:"Booking created successfully"});
+
+    }catch(error){
+        console.log(error);
+      res.json({success:false,message:"failed to create booking"});
+    }
+}
+
+
+
