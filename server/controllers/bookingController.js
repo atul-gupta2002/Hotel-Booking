@@ -5,19 +5,20 @@ import Hotel from "../models/Hotel.js";
 //Function to check availability of rooms
 
 
-const checkAvailability = async ({ checkIndate , checkOutDate , room }) => {
-    try{
-        const bookings = await Booking.find({
-            room,
-            checkInDate: { $lte: checkOutDate },
-            checkOutDate: { $gte: checkIndate },
-        })
-        const isAvailable = bookings.length === 0;
-        return isAvailable;
-    }catch(error){
-        console.log(error.message);
-    }
-}
+// export const checkAvailability = async ({ checkIndate , checkOutDate , room }) => {
+//     try{
+//         const bookings = await Booking.find({
+//             room,
+//             checkInDate: { $lte: checkOutDate },
+//             checkOutDate: { $gte: checkIndate },
+//         })
+//         const isAvailable = bookings.length === 0;
+//         return isAvailable;
+//     }catch(error){
+//         console.log(error.message);
+//     }
+// }
+
 
 //API to check availability of room
 //POST /api/bookings/check-availability
@@ -111,6 +112,8 @@ export const getHotelBookings = async (req, res) => {
     }
 
 }
+
+
 
 
 
