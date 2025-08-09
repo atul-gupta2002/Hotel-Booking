@@ -1,9 +1,13 @@
 import React, {useState} from 'react'
 import {assets} from "../../assets/assets.js";
 import Title from "../../components/Title.jsx";
+import {useAppContext} from "../../context/AppContext.jsx";
+import {toast} from "react-hot-toast";
 
 
 const AddRoom = () => {
+
+    const {axios , getToken } = useAppContext()
 
     const[images,setImages]=useState({
         1: null,
@@ -26,8 +30,67 @@ const AddRoom = () => {
         }
     })
 
+    const [loading,setLoading] = useState(false);
+
+    const onSubmitHandler = async (e) => {
+        e.preventDefault();
+        //check if all inputs are filled
+        if(!inputs.roomType || !inputs.pricePerNight || !inputs.amenities ||
+            !Object.values(images).some(image=>image) ){
+            toast.error('Please fill in all the fields')
+            return;
+        }
+
+        setLoading(true);
+        try{
+            const formData = new FormData();
+            formData.append('roomType',inputs.roomType);
+            formData.append('pricePerNight',inputs.pricePerNight);
+            // converting amenities to array & keeping only enabled amenities
+            const amenities = Object.keys(inputs.amenities).
+            filter(key=>inputs.amenities[key]);
+            formData.append('amenities', JSON.stringify(amenities))
+
+            //Adding images to FormData
+            Object.keys(images).forEach(key=> {
+                images[key] && formData.append('images',images[key])
+            })
+             const {data} = await axios.post(`/api/rooms/`,formData,{
+                 headers: {
+                     Authorization: `Bearer ${ await getToken }`
+                 }
+             })
+            if(data.success){
+                 toast.success(data.message);
+                setInputs({
+                    roomType: "",
+                    pricePerNight: 0,
+                    amenities: {
+                        'Free WiFi': false,
+                        'Free parking': false,
+                        'Free breakfast': false,
+                        'Room service': false,
+                        'Mountain view': false,
+                        'Pool access': false
+                    }
+                })
+                setImages({1: null,2: null,3: null,4: null})
+
+             }else{
+                 toast.error(data.message);
+             }
+
+        }catch(error){
+            toast.error(data.message);
+        }
+        finally{
+            setLoading(false);
+        }
+
+    }
+
     return (
-       <form>
+       <form onSubmit={onSubmitHandler}>
            <Title align='left' font='outfit' title='Add Room' subTitle='Fill in the details carefully
            and accurate room details,pricing,and amenities,to enhance the user booking experience.' />'
 
