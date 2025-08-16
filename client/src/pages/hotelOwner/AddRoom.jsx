@@ -57,7 +57,7 @@ const AddRoom = () => {
             })
              const {data} = await axios.post(`/api/rooms/`,formData,{
                  headers: {
-                     Authorization: `Bearer ${ await getToken }`
+                     Authorization: `Bearer ${ await getToken() }`
                  }
              })
             if(data.success){
@@ -144,8 +144,9 @@ const AddRoom = () => {
                ))}
            </div>
 
-           <button className='bg-primary rounded  py-2 px-8 mt-8 text-white cursor-pointer' >
-               Add room
+           <button className='bg-primary rounded  py-2 px-8 mt-8 text-white cursor-pointer'
+           disabled={loading}>
+               {loading ? 'Adding...' : 'Add Room'}
            </button>
 
        </form>
